@@ -5,7 +5,7 @@ public class Server {
 
   public static void main(String[] args){
     int portNumber = Integer.parseInt(args[0]);
-
+    System.out.println("Listening..");
     try (
         ServerSocket serverSocket = new ServerSocket(portNumber);
         Socket clientSocket = serverSocket.accept();
@@ -14,29 +14,23 @@ public class Server {
         BufferedReader in = new BufferedReader(
             new InputStreamReader(clientSocket.getInputStream()));
     ) {
+      String inputLine, outputLine;
 
+      // Initiate conversation with client
 
-  }
-    try (
-    PrintWriter out =
-        new PrintWriter(clientSocket.getOutputStream(), true);
-    BufferedReader in = new BufferedReader(
-        new InputStreamReader(clientSocket.getInputStream()));
-    ) {
-    String inputLine, outputLine;
+      KnockKnockProtocol kkp = new KnockKnockProtocol();
+      outputLine = kkp.processInput(null);
+      out.println(outputLine);
 
-    // Initiate conversation with client
-
-    KnockKnockProtocol kkp = new KnockKnockProtocol();
-    outputLine = kkp.processInput(null);
-    out.println(outputLine);
-
-    while ((inputLine = in.readLine()) != null) {
-        outputLine = kkp.processInput(inputLine);
-        out.println(outputLine);
-        if (outputLine.equals("Bye."))
-            break;
+      while ((inputLine = in.readLine()) != null) {
+          outputLine = kkp.processInput(inputLine);
+          out.println(outputLine);
+          if (outputLine.equals("Bye."))
+              break;
+      }
     }
-  }}
-
+    catch(IOException e) {
+      System.out.println("IOException");
+    }
+  }
 }
