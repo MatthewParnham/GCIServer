@@ -25,7 +25,6 @@ public class Server {
             Scanner k = new Scanner(System.in);
 
             // Initiate conversation with client
-            System.out.println("Client has connected to server.");
             outputLine = "Connected to Server.";
             out.println(outputLine);
 

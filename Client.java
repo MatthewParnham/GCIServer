@@ -4,14 +4,15 @@ import java.net.*;
 public class Client {
     public static void main(String[] args) throws IOException {
 
-        if (args.length != 2) {
+        if (args.length != 3) {
             System.err.println(
-                "Usage: java Client <host name> <port number>");
+                "Usage: java Client <host name> <port number> <client name>");
             System.exit(1);
         }
 
         String hostName = args[0];
         int portNumber = Integer.parseInt(args[1]);
+        String clientName = args[2];
 
         try (
             Socket kkSocket = new Socket(hostName, portNumber);
@@ -23,6 +24,8 @@ public class Client {
                 new BufferedReader(new InputStreamReader(System.in));
             String fromServer;
             String fromUser;
+
+            out.println(clientName + "has connected.");
 
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Server: " + fromServer);
