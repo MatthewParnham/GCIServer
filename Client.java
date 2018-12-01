@@ -26,12 +26,10 @@ public class Client {
             String fromUser;
 
             out.println(clientName + " has connected.");
+            System.out.println(in.readLine());
 
             while (true) {
-              fromServer = in.readLine();
-              if(fromServer != null) {
-                System.out.println(fromServer);
-              }
+                System.out.print("Input: ");
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {
                     out.println(fromUser);
