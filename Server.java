@@ -28,7 +28,7 @@ public class Server {
             outputLine = "Connected to Server.";
             out.println(outputLine);
 
-            while (true) {
+            /*while (true) {
               inputLine = in.readLine();
               if(inputLine != null) {
                 System.out.println(inputLine);
@@ -36,7 +36,7 @@ public class Server {
               if(inputLine.equals("quit")) {
                 break;
               }
-            }
+            }*/
 
             /*while ((inputLine = in.readLine()) != null) {
               System.out.println("Client: " + inputLine);
