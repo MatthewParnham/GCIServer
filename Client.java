@@ -32,7 +32,7 @@ public class Client {
                 System.out.print("Input: ");
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {
-                    out.println(clientName + ": " + fromUser);
+                    out.println(fromUser);
                 }
                 if(fromUser.equals("quit")) {
                   break;
