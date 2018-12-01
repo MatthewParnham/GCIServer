@@ -27,8 +27,11 @@ public class Client {
 
             out.println(clientName + " has connected.");
 
-            while ((fromServer = in.readLine()) != null) {
+            while (true) {
+              fromServer = in.readLine();
+              if(fromServer != null) {
                 System.out.println(fromServer);
+              }
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {
                     out.println(fromUser);

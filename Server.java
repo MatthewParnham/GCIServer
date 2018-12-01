@@ -27,9 +27,12 @@ public class Server {
             // Initiate conversation with client
             outputLine = "Connected to Server.";
             out.println(outputLine);
-            
-            while ((inputLine = in.readLine()) != null) {
-              System.out.println("Client: " + inputLine);
+
+            while (true) {
+              inputLine = in.readLine();
+              if(inputLine != null) {
+                System.out.println("Client: " + inputLine);
+              }
               if(inputLine.equals("quit")) {
                 break;
               }
