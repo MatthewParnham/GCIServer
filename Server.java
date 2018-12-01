@@ -22,20 +22,27 @@ public class Server {
         ) {
 
             String inputLine, outputLine;
-            Scanner k = new Scanner(System.in);
+            //Scanner k = new Scanner(System.in);
 
             // Initiate conversation with client
             outputLine = "Connected to Server.";
             out.println(outputLine);
-
+            
             while ((inputLine = in.readLine()) != null) {
+              System.out.println("Client: " + inputLine);
+              if(inputLine.equals("quit")) {
+                break;
+              }
+            }
+
+            /*while ((inputLine = in.readLine()) != null) {
               System.out.println("Client: " + inputLine);
               System.out.println("Message:");
                 outputLine = k.nextLine();
                 out.println(outputLine);
                 if (outputLine.equals("Bye."))
                     break;
-            }
+            }*/
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "
                 + portNumber + " or listening for a connection");

@@ -25,17 +25,16 @@ public class Client {
             String fromServer;
             String fromUser;
 
-            out.println(clientName + "has connected.");
+            out.println(clientName + " has connected.");
 
             while ((fromServer = in.readLine()) != null) {
-                System.out.println("Server: " + fromServer);
-                if (fromServer.equals("Bye."))
-                    break;
-
+                System.out.println(fromServer);
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {
-                    //System.out.println("Client: " + fromUser);
                     out.println(fromUser);
+                }
+                if(fromUser.equals("quit")) {
+                  break;
                 }
             }
         } catch (UnknownHostException e) {
