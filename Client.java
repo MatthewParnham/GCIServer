@@ -29,6 +29,9 @@ public class Client {
             System.out.println(in.readLine());
 
             while (true) {
+              while((fromServer = in.readLine()) != null) {
+                System.out.println(fromServer);
+              }
                 System.out.print("Username: ");
                 fromUser = stdIn.readLine();
                 out.println(fromUser);
