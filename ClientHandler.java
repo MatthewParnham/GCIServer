@@ -32,9 +32,11 @@ public class ClientHandler extends Thread {
         //inputLine = in.readLine()) != null
         while ((inputLine = in.readLine()) != null) {
           String user = inputLine;
+          System.out.println(user);
           String message = in.readLine();
-          if(users.containsKey(userName)) {
-            PrintWriter specialOut = new PrintWriter(users.get(user).getSocket().getOutputStream());
+          System.out.println(message);
+          if(users.containsKey(user)) {
+            PrintWriter specialOut = new PrintWriter(users.get(user).getSocket().getOutputStream(), true);
             specialOut.println(userName + ": " + message);
           }
           else {
