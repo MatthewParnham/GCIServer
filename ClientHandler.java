@@ -25,11 +25,14 @@ public class ClientHandler extends Thread {
         outputLine = "Connected to Server.";
         out.println(outputLine);
 
+        //ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
+        //ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
+
         while ((inputLine = in.readLine()) != null) {
           System.out.println("Client: " + inputLine);
-          if(inputLine.equals("quit")) {
+          /*if(inputLine.equals("quit")) {
             break;
-          }
+          }*/
         }
         System.out.println("Client has left.");
       } catch (IOException e) {
