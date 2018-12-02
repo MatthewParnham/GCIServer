@@ -25,7 +25,7 @@ public class Client {
             String fromServer;
             String fromUser;
 
-            out.println(clientName + " has connected.");
+            out.println(clientName);
             System.out.println(in.readLine());
 
             while (true) {

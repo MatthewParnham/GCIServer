@@ -13,6 +13,7 @@ public class Server {
 
     int portNumber = Integer.parseInt(args[0]);
     ServerSocket serverSocket = new ServerSocket(portNumber);
+    HashMap<String, User> users = new HashMap<String, User>();
 
 
     while(true) {
@@ -23,6 +24,9 @@ public class Server {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        //read  in username and create user object in map with info
+        String userName = in.readLine();
+        users.put(userName,new User(userName,clientSocket.getInetAddress(), clientSocket));
         new ClientHandler(clientSocket, in, out).start();
 
 
