@@ -12,6 +12,8 @@ public class Server {
 
         int portNumber = Integer.parseInt(args[0]);
 
+
+while(true) {
         try (
             ServerSocket serverSocket = new ServerSocket(portNumber);
             Socket clientSocket = serverSocket.accept();
@@ -20,36 +22,19 @@ public class Server {
             BufferedReader in = new BufferedReader(
                 new InputStreamReader(clientSocket.getInputStream()));
         ) {
-          new EchoThread(clientSocket).start();
             String inputLine, outputLine;
-            //Scanner k = new Scanner(System.in);
 
             // Initiate conversation with client
+            System.out.println("Client Connected.");
             outputLine = "Connected to Server.";
             out.println(outputLine);
+            new EchoThread(clientSocket).start();
 
-            /*while (true) {
-              inputLine = in.readLine();
-              if(inputLine != null) {
-                System.out.println(inputLine);
-              }
-              if(inputLine.equals("quit")) {
-                break;
-              }
-            }*/
-
-            /*while ((inputLine = in.readLine()) != null) {
-              System.out.println("Client: " + inputLine);
-              System.out.println("Message:");
-                outputLine = k.nextLine();
-                out.println(outputLine);
-                if (outputLine.equals("Bye."))
-                    break;
-            }*/
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "
                 + portNumber + " or listening for a connection");
             System.out.println(e.getMessage());
         }
     }
+  }
 }

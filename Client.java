@@ -28,14 +28,14 @@ public class Client {
             out.println(clientName + " has connected.");
             System.out.println(in.readLine());
 
-            /*while (true) {
+            while (true) {
                 System.out.print("Input: ");
                 fromUser = stdIn.readLine();
                 out.println(fromUser);
                 if(fromUser.equals("quit")) {
                   break;
                 }
-            }*/
+            }
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
             System.exit(1);
