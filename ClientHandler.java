@@ -29,9 +29,15 @@ public class ClientHandler extends Thread {
 
         //ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
         //ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
-
+        //inputLine = in.readLine()) != null
         while ((inputLine = in.readLine()) != null) {
-          System.out.println(userName + ": " + inputLine);
+          String user = inputLine;
+          String message = in.readLine();
+          if(users.containsKey(userName)) {
+            PrintWriter specialOut = new PrintWriter(users.get(user).getSocket().getOutputStream());
+            specialOut.println(userName + ": " + message);
+          }
+        //  System.out.println(userName + ": " + inputLine);
           /*if(inputLine.equals("quit")) {
             break;
           }*/

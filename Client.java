@@ -29,7 +29,10 @@ public class Client {
             System.out.println(in.readLine());
 
             while (true) {
-                System.out.print("Input: ");
+                System.out.print("Username: ");
+                fromUser = stdIn.readLine();
+                out.println(fromUser);
+                System.out.print("Message: ");
                 fromUser = stdIn.readLine();
                 out.println(fromUser);
                 if(fromUser.equals("quit")) {
