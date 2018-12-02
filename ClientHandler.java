@@ -37,6 +37,9 @@ public class ClientHandler extends Thread {
             PrintWriter specialOut = new PrintWriter(users.get(user).getSocket().getOutputStream());
             specialOut.println(userName + ": " + message);
           }
+          else {
+            out.println("User not found.");
+          }
         //  System.out.println(userName + ": " + inputLine);
           /*if(inputLine.equals("quit")) {
             break;
