@@ -27,7 +27,6 @@ public class Client {
 
             out.println(clientName);
             System.out.println(in.readLine());
-            System.out.println(in.readLine());
 
             while (true) {
                 System.out.print("Input: ");

@@ -29,8 +29,6 @@ public class ClientHandler extends Thread {
 
         //ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
         //ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
-        PrintWriter dummy = new PrintWriter(users.get(userName).getSocket().getOutputStream(), true);
-        dummy.println("AYO WAS GOODD");
 
         while ((inputLine = in.readLine()) != null) {
           System.out.println(userName + ": " + inputLine);
