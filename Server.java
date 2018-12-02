@@ -31,7 +31,7 @@ public class Server {
         }
         else {
           users.put(userName,new User(userName,clientSocket.getInetAddress(), clientSocket));
-          new ClientHandler(clientSocket, in, out, users).start();
+          new ClientHandler(clientSocket, userName, in, out, users).start();
         }
 
       } catch (IOException e) {

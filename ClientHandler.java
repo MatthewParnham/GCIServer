@@ -9,12 +9,14 @@ public class ClientHandler extends Thread {
     protected BufferedReader in;
     protected PrintWriter out;
     protected HashMap<String, User> users;
+    protected String userName;
 
-    public ClientHandler(Socket clientSocket, BufferedReader in, PrintWriter out, HashMap<String, User> users) {
+    public ClientHandler(Socket clientSocket, String userName, BufferedReader in, PrintWriter out, HashMap<String, User> users) {
         this.socket = clientSocket;
         this.in = in;
         this.out = out;
         this.users = users;
+        this.userName = userName;
     }
 
     @Override
@@ -35,6 +37,7 @@ public class ClientHandler extends Thread {
           }*/
         }
         System.out.println("Client has left.");
+        users.remove(userName);
       } catch (IOException e) {
         System.out.println("Exception caught when trying to listen on port.");
         System.out.println(e.getMessage());
