@@ -29,7 +29,6 @@ public class Client {
             System.out.println(in.readLine());
 
             while (true) {
-              System.out.println(in.readLine());
                 System.out.print("Username: ");
                 fromUser = stdIn.readLine();
                 out.println(fromUser);
@@ -40,6 +39,7 @@ public class Client {
                   socket.close();
                   break;
                 }
+                System.out.println(in.readLine());
             }
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
