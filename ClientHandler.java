@@ -24,7 +24,7 @@ public class ClientHandler extends Thread {
         // Initiate conversation with client
         outputLine = "Connected to Server.";
         out.println(outputLine);
-System.out.println(users.get("client1").getIP());
+
         while ((inputLine = in.readLine()) != null) {
           System.out.println("Client: " + inputLine);
           if(inputLine.equals("quit")) {

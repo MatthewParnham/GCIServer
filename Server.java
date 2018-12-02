@@ -26,9 +26,13 @@ public class Server {
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         //read  in username and create user object in map with info
         String userName = in.readLine();
-        users.put(userName,new User(userName,clientSocket.getInetAddress(), clientSocket));
-        new ClientHandler(clientSocket, in, out, users).start();
-
+        if(users.containsKey(userName)) {
+          out.println("'" + userName + "' is already taken. Refusing connection.");
+        }
+        else {
+          users.put(userName,new User(userName,clientSocket.getInetAddress(), clientSocket));
+          new ClientHandler(clientSocket, in, out, users).start();
+        }
 
       } catch (IOException e) {
         System.out.println("Exception caught when trying to listen on port "
