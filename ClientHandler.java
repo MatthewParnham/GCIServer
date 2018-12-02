@@ -31,7 +31,7 @@ public class ClientHandler extends Thread {
         //ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
 
         while ((inputLine = in.readLine()) != null) {
-          System.out.println("Client: " + inputLine);
+          System.out.println(userName + ": " + inputLine);
           /*if(inputLine.equals("quit")) {
             break;
           }*/
