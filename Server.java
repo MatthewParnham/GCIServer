@@ -27,7 +27,7 @@ public class Server {
         //read  in username and create user object in map with info
         String userName = in.readLine();
         users.put(userName,new User(userName,clientSocket.getInetAddress(), clientSocket));
-        new ClientHandler(clientSocket, in, out).start();
+        new ClientHandler(clientSocket, in, out, users).start();
 
 
       } catch (IOException e) {

@@ -8,11 +8,13 @@ public class ClientHandler extends Thread {
     protected Socket socket;
     protected BufferedReader in;
     protected PrintWriter out;
+    protected HashMap<String, User> users;
 
-    public ClientHandler(Socket clientSocket, BufferedReader in, PrintWriter out) {
+    public ClientHandler(Socket clientSocket, BufferedReader in, PrintWriter out, HashMap<String, User> users) {
         this.socket = clientSocket;
         this.in = in;
         this.out = out;
+        this.users = users;
     }
 
     @Override
@@ -22,7 +24,7 @@ public class ClientHandler extends Thread {
         // Initiate conversation with client
         outputLine = "Connected to Server.";
         out.println(outputLine);
-
+System.out.println(users.get("client1").getIP());
         while ((inputLine = in.readLine()) != null) {
           System.out.println("Client: " + inputLine);
           if(inputLine.equals("quit")) {
