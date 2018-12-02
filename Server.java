@@ -1,40 +1,36 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.text.*;
 
 public class Server {
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-        if (args.length != 1) {
-            System.err.println("Usage: java Server <port number>");
-            System.exit(1);
-        }
+    if (args.length != 1) {
+        System.err.println("Usage: java Server <port number>");
+        System.exit(1);
+    }
 
-        int portNumber = Integer.parseInt(args[0]);
+    int portNumber = Integer.parseInt(args[0]);
+    ServerSocket serverSocket = new ServerSocket(portNumber);
 
 
-while(true) {
-        try (
-            ServerSocket serverSocket = new ServerSocket(portNumber);
-            Socket clientSocket = serverSocket.accept();
-            PrintWriter out =
-                new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(
-                new InputStreamReader(clientSocket.getInputStream()));
-        ) {
-            String inputLine, outputLine;
+    while(true) {
+      Socket clientSocket = null;
+      try {
+        clientSocket = serverSocket.accept();
+        System.out.println("A client has connected.");
 
-            // Initiate conversation with client
-            System.out.println("Client Connected.");
-            outputLine = "Connected to Server.";
-            out.println(outputLine);
-            new EchoThread(clientSocket).start();
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        new ClientHandler(clientSocket, in, out).start();
 
-        } catch (IOException e) {
-            System.out.println("Exception caught when trying to listen on port "
-                + portNumber + " or listening for a connection");
-            System.out.println(e.getMessage());
-        }
+
+      } catch (IOException e) {
+        System.out.println("Exception caught when trying to listen on port "
+            + portNumber + " or listening for a connection");
+        System.out.println(e.getMessage());
+      }
     }
   }
 }

@@ -2,16 +2,42 @@ import java.lang.Thread;
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.text.*;
 
-public class EchoThread extends Thread {
+public class ClientHandler extends Thread {
     protected Socket socket;
+    protected BufferedReader in;
+    protected PrintWriter out;
 
-    public EchoThread(Socket clientSocket) {
+    public ClientHandler(Socket clientSocket, BufferedReader in, PrintWriter out) {
         this.socket = clientSocket;
+        this.in = in;
+        this.out = out;
     }
 
+    @Override
     public void run() {
-        InputStream inp = null;
+      String inputLine, outputLine;
+      try {
+        // Initiate conversation with client
+        outputLine = "Connected to Server.";
+        out.println(outputLine);
+
+        while ((inputLine = in.readLine()) != null) {
+          System.out.println("Client: " + inputLine);
+          if(inputLine.equals("quit")) {
+            break;
+          }
+        }
+        System.out.println("Client has left.");
+      } catch (IOException e) {
+        System.out.println("Exception caught when trying to listen on port.");
+        System.out.println(e.getMessage());
+      }
+
+
+
+        /*InputStream inp = null;
         BufferedReader brinp = null;
         DataOutputStream out = null;
         try {
@@ -36,6 +62,6 @@ public class EchoThread extends Thread {
                 e.printStackTrace();
                 return;
             }
-        }
+        }*/
     }
 }
