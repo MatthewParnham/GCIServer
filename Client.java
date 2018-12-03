@@ -30,16 +30,24 @@ public class Client {
             new ClientListener(socket, clientName, in, out);
 
             while (true) {
+              System.out.prinln("Options:\n1. Send Message\n2. Quit");
+              fromUser = stdIn.readLine();
+              if(fromUser.equals("1")) {
                 System.out.print("Username: ");
                 fromUser = stdIn.readLine();
                 out.println(fromUser);
                 System.out.print("Message: ");
                 fromUser = stdIn.readLine();
                 out.println(fromUser);
-                if(fromUser.equals("quit")) {
+              }
+                /*if(fromUser.equals("quit")) {
                   socket.close();
                   break;
-                }
+                }*/
+              else {
+                socket.close();
+                break;
+              }
             }
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
