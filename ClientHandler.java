@@ -24,8 +24,8 @@ public class ClientHandler extends Thread {
       String inputLine, outputLine;
       try {
         // Initiate conversation with client
-        outputLine = "Connected to Server.";
-        out.println(outputLine);
+        //outputLine = "Connected to Server.";
+        //out.println(outputLine);
         // create a new thread for writing to Socket
         //new ClientWriter(socket, userName, in, out, users).start();
 
@@ -45,7 +45,11 @@ public class ClientHandler extends Thread {
             case "tell":
               if(inputArgs.length > 1 && users.containsKey(inputArgs[1])) {
                 PrintWriter specialOut = new PrintWriter(users.get(inputArgs[1]).getSocket().getOutputStream(), true);
-                specialOut.println(userName + ": " + inputArgs[1]);
+                String message = "";
+                for(int i = 2; i < inputArgs.length; i++) {
+                  message += inputArgs[i] + " ";
+                }
+                specialOut.println("[" + userName + "]: " + message);
               }
               else {
                 out.println("User not found.");
