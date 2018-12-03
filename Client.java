@@ -30,7 +30,7 @@ public class Client {
             new ClientListener(socket, clientName, in, out);
 
             while (true) {
-              System.out.prinln("Options:\n1. Send Message\n2. Quit");
+              System.out.println("Options:\n1. Send Message\n2. Quit");
               fromUser = stdIn.readLine();
               if(fromUser.equals("1")) {
                 System.out.print("Username: ");
