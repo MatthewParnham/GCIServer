@@ -14,12 +14,12 @@ public class Client {
         int portNumber = Integer.parseInt(args[1]);
         String clientName = args[2];
 
-        try (
-            Socket socket = new Socket(hostName, portNumber);
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(
-                new InputStreamReader(socket.getInputStream()));
-        ) {
+        try {
+          Socket socket = new Socket(hostName, portNumber);
+          PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+          BufferedReader in = new BufferedReader(
+              new InputStreamReader(socket.getInputStream()));
+
             BufferedReader stdIn =
                 new BufferedReader(new InputStreamReader(System.in));
             String fromServer;
@@ -27,6 +27,7 @@ public class Client {
 
             out.println(clientName);
             System.out.println(in.readLine());
+            new ClientListener(socket, clientName, in, out);
 
             while (true) {
                 System.out.print("Username: ");
@@ -39,7 +40,6 @@ public class Client {
                   socket.close();
                   break;
                 }
-                System.out.println(in.readLine());
             }
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);

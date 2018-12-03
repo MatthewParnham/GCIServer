@@ -26,6 +26,8 @@ public class ClientHandler extends Thread {
         // Initiate conversation with client
         outputLine = "Connected to Server.";
         out.println(outputLine);
+        // create a new thread for writing to Socket
+        //new ClientWriter(socket, userName, in, out, users).start();
 
         //ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
         //ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
