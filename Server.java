@@ -4,18 +4,18 @@ import java.util.*;
 import java.text.*;
 
 public class Server {
-  public static void main(String[] args) throws IOException {
+  private int portNumber;
+  private ServerSocket serverSocket;
+  private HashMap<String, User> users;
 
-    if (args.length != 1) {
-        System.err.println("Usage: java Server <port number>");
-        System.exit(1);
-    }
+  public Server(int portNumber) throws IOException {
+    this.portNumber = portNumber;
+    this.serverSocket = new ServerSocket(portNumber);
+    this.users = new HashMap<String, User>();
+  }
 
-    int portNumber = Integer.parseInt(args[0]);
-    ServerSocket serverSocket = new ServerSocket(portNumber);
-    HashMap<String, User> users = new HashMap<String, User>();
-
-
+  public void start() throws IOException {
+    System.out.println("Server is now running..\nPress ctrl+C to stop.");
     while(true) {
       Socket clientSocket = null;
       try {

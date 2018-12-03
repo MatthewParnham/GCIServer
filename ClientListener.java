@@ -5,31 +5,35 @@ import java.util.*;
 import java.text.*;
 
 public class ClientListener extends Thread {
-    protected Socket socket;
-    protected BufferedReader in;
-    protected PrintWriter out;
-    protected String userName;
-    protected ArrayList<String> incomingMessages;
+    private Socket socket;
+    private String clientName;
+    private BufferedReader in;
+    private Client client;
 
-    public ClientListener(Socket clientSocket, String userName, BufferedReader in, PrintWriter out, ArrayList<String> incomingMessages) {
+    public ClientListener(Socket clientSocket, String clientName, Client client) {
         this.socket = clientSocket;
-        this.in = in;
-        this.out = out;
-        this.userName = userName;
-        this.incomingMessages = incomingMessages;
+        this.clientName = clientName;
+        this.client = client;
+
+        try {
+          in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        } catch (IOException e) {
+          System.out.println("Error getting input stream: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void run() {
-      String inputLine, outputLine;
+  @Override
+  public void run() {
+    String inputLine;
+    while(true) {
       try {
-
-        while ((inputLine = in.readLine()) != null) {
-          incomingMessages.add(inputLine);
-        }
+        inputLine = in.readLine();
+        System.out.println("\n" + inputLine);
       } catch (IOException e) {
-        System.out.println("Exception caught when trying to listen on port.");
-        System.out.println(e.getMessage());
+      System.out.println("Exception caught when trying to listen on port.");
+      System.out.println(e.getMessage());
       }
     }
+  }
 }

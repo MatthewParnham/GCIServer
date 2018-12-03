@@ -3,23 +3,32 @@ import java.net.*;
 import java.util.*;
 
 public class Client {
-    public static void main(String[] args) throws IOException {
 
-        if (args.length != 3) {
-            System.err.println(
-                "Usage: java Client <host name> <port number> <client name>");
-            System.exit(1);
-        }
+  private String hostName;
+  private int portNumber;
+  private String clientName;
 
-        String hostName = args[0];
-        int portNumber = Integer.parseInt(args[1]);
-        String clientName = args[2];
+  public Client(String hostName, int portNumber, String clientName) {
+    this.hostName = hostName;
+    this.portNumber = portNumber;
+    this.clientName = clientName;
+  }
+
+  public String getClientName() {
+    return this.clientName;
+  }
+
+    public void connect() throws IOException {
 
         try {
           Socket socket = new Socket(hostName, portNumber);
-          PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-          BufferedReader in = new BufferedReader(
-              new InputStreamReader(socket.getInputStream()));
+
+          System.out.println("Connected to the server.");
+
+          new ClientListener(socket, clientName, this).start();
+          new ClientWriter(socket, clientName, this).start();
+          /*PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+          BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             BufferedReader stdIn =
                 new BufferedReader(new InputStreamReader(System.in));
@@ -51,12 +60,12 @@ public class Client {
                 /*if(fromUser.equals("quit")) {
                   socket.close();
                   break;
-                }*/
+                }
               else {
                 socket.close();
                 break;
               }
-            }
+            }*/
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
             System.exit(1);

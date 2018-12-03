@@ -35,15 +35,15 @@ public class ClientHandler extends Thread {
         while ((inputLine = in.readLine()) != null) {
           String user = inputLine;
           System.out.println(user);
-          String message = in.readLine();
-          System.out.println(message);
-          if(users.containsKey(user)) {
-            PrintWriter specialOut = new PrintWriter(users.get(user).getSocket().getOutputStream(), true);
-            specialOut.println(userName + ": " + message);
-          }
-          else {
-            out.println("User not found.");
-          }
+          //String message = in.readLine();
+          //System.out.println(message);
+          //if(users.containsKey(user)) {
+            //PrintWriter specialOut = new PrintWriter(users.get(user).getSocket().getOutputStream(), true);
+            //specialOut.println(userName + ": " + message);
+          //}
+          //else {
+            //out.println("User not found.");
+          //}
         //  System.out.println(userName + ": " + inputLine);
           /*if(inputLine.equals("quit")) {
             break;
