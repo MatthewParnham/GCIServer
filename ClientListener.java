@@ -9,12 +9,14 @@ public class ClientListener extends Thread {
     protected BufferedReader in;
     protected PrintWriter out;
     protected String userName;
+    protected ArrayList<String> incomingMessages;
 
-    public ClientListener(Socket clientSocket, String userName, BufferedReader in, PrintWriter out) {
+    public ClientListener(Socket clientSocket, String userName, BufferedReader in, PrintWriter out, ArrayList<String> incomingMessages) {
         this.socket = clientSocket;
         this.in = in;
         this.out = out;
         this.userName = userName;
+        this.incomingMessages = incomingMessages;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class ClientListener extends Thread {
       try {
 
         while (true) {
-          System.out.println(in.readLine());
+          incomingMessages.add(in.readLine());
         }
       } catch (IOException e) {
         System.out.println("Exception caught when trying to listen on port.");

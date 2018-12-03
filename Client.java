@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class Client {
     public static void main(String[] args) throws IOException {
@@ -24,13 +25,14 @@ public class Client {
                 new BufferedReader(new InputStreamReader(System.in));
             String fromServer;
             String fromUser;
+            ArrayList<String> incomingMessages = new ArrayList<String>();
 
             out.println(clientName);
             System.out.println(in.readLine());
-            new ClientListener(socket, clientName, in, out);
+            new ClientListener(socket, clientName, in, out, incomingMessages);
 
             while (true) {
-              System.out.println("Options:\n1. Send Message\n2. Quit");
+              System.out.println("Options:\n1. Send Message\n2. Receive Messages\n3. Quit");
               fromUser = stdIn.readLine();
               if(fromUser.equals("1")) {
                 System.out.print("Username: ");
@@ -39,6 +41,12 @@ public class Client {
                 System.out.print("Message: ");
                 fromUser = stdIn.readLine();
                 out.println(fromUser);
+              }
+              else if(fromUser.equals("2")) {
+                Iterator itr = incomingMessages.iterator();
+                while(itr.hasNext()) {
+                  System.out.println(itr.next());
+                }
               }
                 /*if(fromUser.equals("quit")) {
                   socket.close();
