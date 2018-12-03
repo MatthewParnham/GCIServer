@@ -24,8 +24,8 @@ public class ClientListener extends Thread {
       String inputLine, outputLine;
       try {
 
-        while (true) {
-          incomingMessages.add(in.readLine());
+        while ((inputLine = in.readLine()) != null) {
+          incomingMessages.add(inputLine);
         }
       } catch (IOException e) {
         System.out.println("Exception caught when trying to listen on port.");
