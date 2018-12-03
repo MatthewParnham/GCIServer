@@ -25,14 +25,14 @@ public class ClientListener extends Thread {
 
   @Override
   public void run() {
-    String inputLine;
     while(true) {
       try {
-        inputLine = in.readLine();
+        String inputLine = in.readLine();
         System.out.println("\n" + inputLine);
       } catch (IOException e) {
       System.out.println("Exception caught when trying to listen on port.");
       System.out.println(e.getMessage());
+      break;
       }
     }
   }

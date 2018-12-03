@@ -33,24 +33,46 @@ public class ClientHandler extends Thread {
         //ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
         //inputLine = in.readLine()) != null
         while ((inputLine = in.readLine()) != null) {
-          String user = inputLine;
-          System.out.println(user);
+          //String user = inputLine;
+          System.out.println("[" + userName + "]: " + inputLine);
+          String[] inputArgs = inputLine.split("\\s+");
+          if(inputArgs[0].equalsIgnoreCase("quit")) {
+            break;
+          }
+
+
+          switch (inputArgs[0]) {
+            case "tell":
+              if(inputArgs.length > 1 && users.containsKey(inputArgs[1])) {
+                PrintWriter specialOut = new PrintWriter(users.get(inputArgs[1]).getSocket().getOutputStream(), true);
+                specialOut.println(userName + ": " + inputArgs[1]);
+              }
+              else {
+                out.println("User not found.");
+              }
+              break;
+            case "listUsers":
+              for (String key : users.keySet()) {
+                out.println(key);
+              }
+              break;
+            default:
+              out.println("Command not recognized.");
+              break;
+          }
+
+
           //String message = in.readLine();
           //System.out.println(message);
-          //if(users.containsKey(user)) {
-            //PrintWriter specialOut = new PrintWriter(users.get(user).getSocket().getOutputStream(), true);
-            //specialOut.println(userName + ": " + message);
-          //}
-          //else {
-            //out.println("User not found.");
-          //}
+
         //  System.out.println(userName + ": " + inputLine);
           /*if(inputLine.equals("quit")) {
             break;
           }*/
         }
-        System.out.println("Client has left.");
         users.remove(userName);
+        socket.close();
+        System.out.println("Client has left.");
       } catch (IOException e) {
         System.out.println("Exception caught when trying to listen on port.");
         System.out.println(e.getMessage());
