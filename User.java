@@ -18,6 +18,9 @@ public class User {
   public Socket getSocket() {
     return this.sock;
   }
+  public void setSocket(Socket s) {
+    this.sock = s;
+  }
   public String getUserName() {
     return this.userName;
   }

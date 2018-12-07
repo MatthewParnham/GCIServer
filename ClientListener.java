@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.text.*;
 
-public class ClientListener extends Thread {
+public class ClientListener extends Thread {//handles all listening on the client end
     private Socket socket;
     private String clientName;
     private ObjectInputStream in;

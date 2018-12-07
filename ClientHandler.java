@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.text.*;
 
-public class ClientHandler extends Thread {
+public class ClientHandler extends Thread {//handles all connected clients
     protected Socket socket;
     protected ObjectInputStream in;
     protected ObjectOutputStream out;
@@ -24,12 +24,18 @@ public class ClientHandler extends Thread {
       Message input, output;
       try {
 
-        while ((input = (Message)in.readObject()) != null) {
+        if(users.get(userName).getHistory().size() > 0) {//checks if any outstanding messages exist and sends them
+          for(int i = 0; i <users.get(userName).getHistory().size();i++) {
+            out.writeObject(users.get(userName).getHistory().remove(i));
+          }
+        }
+
+        while ((input = (Message)in.readObject()) != null) {//reads messages as they come and sends them appropriately
           String receiver = input.getReciever();
           String sender = input.getSender();
           String message = input.getMessage();
           System.out.println("[" + userName + "]: " + message);
-          //String[] inputArgs = inputLine.split("\\s+");
+
           if(message.equalsIgnoreCase("quit")) {
             break;
           }
@@ -51,35 +57,10 @@ public class ClientHandler extends Thread {
             users.get(receiver).getHistory().add(input);
           }
 
-          /*
-          switch (inputArgs[0]) {
-            case "tell":
-              if(inputArgs.length > 1 && users.containsKey(inputArgs[1])) {
-                PrintWriter specialOut = new PrintWriter(users.get(inputArgs[1]).getSocket().getOutputStream(), true);
-                String message = "";
-                for(int i = 2; i < inputArgs.length; i++) {
-                  message += inputArgs[i] + " ";
-                }
-                specialOut.println("[" + userName + "]: " + message);
-              }
-              else {
-                out.println("User not found.");
-              }
-              break;
-            case "listUsers":
-              for (String key : users.keySet()) {
-                out.println(key);
-              }
-              break;
-            default:
-              out.println("Command not recognized.");
-              break;
-          }*/
-
 
         }
-        users.remove(userName);
         socket.close();
+        users.get(userName).setSocket(null);
         System.out.println("Client has left.");
       } catch (IOException e) {
         System.out.println("Exception caught when trying to listen on port.");

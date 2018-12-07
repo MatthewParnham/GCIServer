@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Client {
+public class Client { //main client class
 
   private String hostName;
   private int portNumber;
@@ -41,11 +41,12 @@ public class Client {
                 hostName);
             System.exit(1);
         }
+        sendMessage(clientName,clientName);
         while(true) {
         String outputLine;
         Console console = System.console();
         outputLine = console.readLine();
-        sendMessage(outputLine,"client1");
+        sendMessage(outputLine,"receiver");
       }
     }
 }
