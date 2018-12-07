@@ -22,21 +22,26 @@ public class Server {
         clientSocket = serverSocket.accept();
         System.out.println("A client has connected.");
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+        ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
         //read  in username and create user object in map with info
-        String userName = in.readLine();
+        Message initialMessage = (Message) in.readObject();
+        String userName = "test";
+        System.out.println("HERe " + userName);
         if(users.containsKey(userName)) {
-          out.println("'" + userName + "' is already taken. Refusing connection.");
+          out.writeObject(new Message(userName,"server","'" + userName + "' is already taken. Refusing connection."));
         }
         else {
-          users.put(userName,new User(userName,clientSocket.getInetAddress(), clientSocket));
+          users.put(userName,new User(userName, clientSocket));
           new ClientHandler(clientSocket, userName, in, out, users).start();
         }
 
       } catch (IOException e) {
         System.out.println("Exception caught when trying to listen on port "
             + portNumber + " or listening for a connection");
+        System.out.println(e.getMessage());
+      } catch (ClassNotFoundException e) {
+        System.out.println("Exception caught when reading object from socket.");
         System.out.println(e.getMessage());
       }
     }

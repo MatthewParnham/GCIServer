@@ -6,12 +6,12 @@ import java.text.*;
 
 public class ClientHandler extends Thread {
     protected Socket socket;
-    protected BufferedReader in;
-    protected PrintWriter out;
+    protected ObjectInputStream in;
+    protected ObjectOutputStream out;
     protected HashMap<String, User> users;
     protected String userName;
 
-    public ClientHandler(Socket clientSocket, String userName, BufferedReader in, PrintWriter out, HashMap<String, User> users) {
+    public ClientHandler(Socket clientSocket, String userName, ObjectInputStream in, ObjectOutputStream out, HashMap<String, User> users) {
         this.socket = clientSocket;
         this.in = in;
         this.out = out;
@@ -21,26 +21,37 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
-      String inputLine, outputLine;
+      Message input, output;
       try {
-        // Initiate conversation with client
-        //outputLine = "Connected to Server.";
-        //out.println(outputLine);
-        // create a new thread for writing to Socket
-        //new ClientWriter(socket, userName, in, out, users).start();
 
-        //ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
-        //ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
-        //inputLine = in.readLine()) != null
-        while ((inputLine = in.readLine()) != null) {
-          //String user = inputLine;
-          System.out.println("[" + userName + "]: " + inputLine);
-          String[] inputArgs = inputLine.split("\\s+");
-          if(inputArgs[0].equalsIgnoreCase("quit")) {
+        while ((input = (Message)in.readObject()) != null) {
+          String receiver = input.getReciever();
+          String sender = input.getSender();
+          String message = input.getMessage();
+          System.out.println("[" + userName + "]: " + message);
+          //String[] inputArgs = inputLine.split("\\s+");
+          if(message.equalsIgnoreCase("quit")) {
             break;
           }
+          if(receiver.equalsIgnoreCase("server")) {
+            continue;
+          }
 
+          if(users.containsKey(receiver)) {
+            if(users.get(receiver).getSocket() != null) {
+              ObjectOutputStream messageOut = new ObjectOutputStream(users.get(receiver).getSocket().getOutputStream());
+              messageOut.writeObject(input);
+            }
+            else {
+              users.get(receiver).getHistory().add(input);
+            }
+          }
+          else {
+            users.put(receiver,new User(receiver, null));
+            users.get(receiver).getHistory().add(input);
+          }
 
+          /*
           switch (inputArgs[0]) {
             case "tell":
               if(inputArgs.length > 1 && users.containsKey(inputArgs[1])) {
@@ -63,16 +74,9 @@ public class ClientHandler extends Thread {
             default:
               out.println("Command not recognized.");
               break;
-          }
-
-
-          //String message = in.readLine();
-          //System.out.println(message);
-
-        //  System.out.println(userName + ": " + inputLine);
-          /*if(inputLine.equals("quit")) {
-            break;
           }*/
+
+
         }
         users.remove(userName);
         socket.close();
@@ -80,35 +84,14 @@ public class ClientHandler extends Thread {
       } catch (IOException e) {
         System.out.println("Exception caught when trying to listen on port.");
         System.out.println(e.getMessage());
+        users.remove(userName);
+      } catch (ClassNotFoundException e) {
+        System.out.println("Exception caught when reading object from socket.");
+        System.out.println(e.getMessage());
       }
 
 
 
-        /*InputStream inp = null;
-        BufferedReader brinp = null;
-        DataOutputStream out = null;
-        try {
-            inp = socket.getInputStream();
-            brinp = new BufferedReader(new InputStreamReader(inp));
-            out = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            return;
-        }
-        String line;
-        while (true) {
-            try {
-                line = brinp.readLine();
-                if ((line == null) || line.equalsIgnoreCase("QUIT")) {
-                    socket.close();
-                    return;
-                } else {
-                    out.writeBytes(line + "\n\r");
-                    out.flush();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-        }*/
+
     }
 }

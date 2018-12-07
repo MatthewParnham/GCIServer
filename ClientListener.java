@@ -7,7 +7,7 @@ import java.text.*;
 public class ClientListener extends Thread {
     private Socket socket;
     private String clientName;
-    private BufferedReader in;
+    private ObjectInputStream in;
     private Client client;
 
     public ClientListener(Socket clientSocket, String clientName, Client client) {
@@ -16,7 +16,7 @@ public class ClientListener extends Thread {
         this.client = client;
 
         try {
-          in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+          in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
           System.out.println("Error getting input stream: " + e.getMessage());
             e.printStackTrace();
@@ -27,12 +27,17 @@ public class ClientListener extends Thread {
   public void run() {
     while(true) {
       try {
-        String inputLine = in.readLine();
-        System.out.println("\n" + inputLine);
+        Message inputMessage = (Message) in.readObject();
+        String message = inputMessage.getMessage();
+        String sender = inputMessage.getSender();
+        System.out.println("\n" + "[" + sender + "]: " + message);
       } catch (IOException e) {
       System.out.println("Exception caught when trying to listen on port.");
       System.out.println(e.getMessage());
       break;
+      } catch (ClassNotFoundException e) {
+        System.out.println("Exception caught when reading object from socket.");
+        System.out.println(e.getMessage());
       }
     }
   }

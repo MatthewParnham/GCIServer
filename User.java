@@ -6,13 +6,13 @@ import java.text.*;
 public class User {
 
   private String userName;
-  private InetAddress IP;
   private Socket sock = null;
+  private ArrayList<Message> history;
 
-  public User(String userName, InetAddress IP, Socket sock) {
+  public User(String userName, Socket sock) {
     this.userName = userName;
-    this.IP = IP;
     this.sock = sock;
+    this.history = new ArrayList<Message>();
   }
 
   public Socket getSocket() {
@@ -21,7 +21,7 @@ public class User {
   public String getUserName() {
     return this.userName;
   }
-  public InetAddress getIP() {
-    return this.IP;
+  public ArrayList<Message> getHistory() {
+    return this.history;
   }
 }
